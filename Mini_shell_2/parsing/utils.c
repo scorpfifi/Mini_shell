@@ -6,7 +6,7 @@
 /*   By: vmpianim <vmpianim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 10:09:24 by vmpianim          #+#    #+#             */
-/*   Updated: 2024/11/15 14:32:52 by vmpianim         ###   ########.fr       */
+/*   Updated: 2024/11/20 12:55:16 by vmpianim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,47 +18,135 @@ int is_separtor(char s)
         return (1);
     return (0);
 }
+int is_double_separator(char *str)
+{
+    if (ft_strncmp("<<", str, 2) == 0)
+        return (1);
+    return (0);
+}
 
-int count_str_cmd(char *command)
+
+int strlen_skape_space(char *str)
 {
     int i;
     int count;
-    
+
     i = 0;
-    count = ft_strlen(command);
-    while (command[i])
+    count = 0;
+    while (str[i])
     {
-        if (is_separtor(command[i]) && (command[i + 1]))
-            count += 2;
+        if (str[i] != ' ' && str[i + 1] != ' ')
+            count++;
         i++;
     }
-    return (count);
 }
+
+char    *skape_space(char *str)
+{
+    int     i;
+    char    *dest;
+    int     j;
+
+    i = 0;
+    j = 0;
+    dest = malloc(sizeof(char) * strlen_skape_space(str) + 1);
+    while(str[i])
+    {
+        while (str[i] == ' ' && str[i + 1] == ' ')
+            i++;
+        dest[j++] = str[i++];
+    }
+    dest[j] = '\0';
+    return (dest);
+}
+
+int count_str_cmd(char *command) 
+{
+    int count = 0;
+    int i = 0;
+
+    while (command[i])
+    {
+        if (command[i] != ' ')
+            count++;
+        i++;
+    }
+    return (count + 2);
+}
+
+char    *add_space(char *str)
+{
+    int     i;
+    char    *dest;
+    int     j;
+
+    j = 0;
+    dest = malloc(sizeof(char) * count_str_cmd(str) + 1);
+    i = 0;
+    while (str[i])
+    {
+        if (is_separtor(str[i]) && str[i + 1] != ' ')
+        {
+            dest[j++] = ' '; 
+            dest[j++] = str[i++];
+            dest[j++] = ' ';
+        }
+        dest[j++] = str[i++];
+    }
+    dest[j] = '\0';
+    return (dest);
+}
+
 
 char    *clean_command(char *command)
 {
     int     i;
     char    *dest;
+    char    *src;
     int     j;
     
-    dest = malloc(sizeof(char) * count_str_cmd(command) + 1);
-    i = 0;
-    j = 0;
-    while (command[i])
-    {
-        if (is_separtor(command[i]) && (command[i + 1] != ' '))
-        {
-            dest[j++] = ' ';
-            dest[j++] = command[i++];
-            dest[j++] = ' ';
-        }
-        dest[j] = command[i];
-        j++;
-        i++;
-    }
-    dest[j] = '\0';
-    return (dest);
+    command = skape_space(command);
+    return (command);
 }
+
+
+// char    *clean_command(char *command)
+// {
+//     int     i;
+//     char    *dest;
+//     int     j;
+    
+//     dest = malloc(sizeof(char) * count_str_cmd(command) + 1);
+//     i = 0;
+//     j = 0;
+//     while (command[i])
+//     {
+//         while (command[i] == ' ' && command[i + 1] == ' ')
+//              i++;
+//         if (is_separtor(command[i]) && command[i + 1])
+//         {
+//             if (is_separtor(command[i + 1]))
+//             {
+//                 if (command[i - 1] != ' ')
+//                     dest[j] = ' ';
+//                 dest[j++] = command[i++];
+//             }
+//             else
+//             {
+//                 dest[j] = ' ';
+//                 dest[j++] = command[i++];
+//             }
+//             if (command[i] != ' ')
+//                 dest[j] = ' ';
+//         }
+//         dest[j++] = command[i++];
+//     }
+//     dest[j] = '\0';
+//     printf("[%s]\n", dest);
+//     return (dest);
+// }
+
+
 int ft_found_pos(char *command)
 {
     int i;

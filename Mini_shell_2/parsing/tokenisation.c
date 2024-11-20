@@ -6,7 +6,7 @@
 /*   By: vmpianim <vmpianim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 09:44:06 by vmpianim          #+#    #+#             */
-/*   Updated: 2024/11/15 14:07:05 by vmpianim         ###   ########.fr       */
+/*   Updated: 2024/11/20 15:01:20 by vmpianim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,15 @@ t_token *tokenisation(char *command)
     char        *start;
     int         pos_space;
     int         i;
+    t_command   **coms;
 
     tokens = malloc(sizeof(t_token) * (count_token(command) + 1));
     i = 0;
     start = command;
     i = 0;
     pos_space = 0;
-    tokens = malloc(sizeof(t_token) * count_token(command) + 1);
     start = command;
+   tokens->next = NULL;
     while (i < count_token(command))
     {
         tokens[i].id = i;
@@ -83,6 +84,7 @@ t_token *tokenisation(char *command)
         printf ("id = %d, value = %s, type = %d\n", tokens[i].id, tokens[i].value, tokens[i].type);
         i++;
     }
+    //tokens->next = NULL;
     return(tokens);
 }
 int main(int argc, char **argv)
@@ -90,13 +92,17 @@ int main(int argc, char **argv)
     t_token *token;
     char    *read_line;
     char    *str;
+    t_command   *command;
 
     while (1)
     {
         read_line = readline("bash~ ");
         str = clean_command(read_line);
-      token = tokenisation(str);
-       //printf ("%d\n", count_token(read_line));
+        token = tokenisation(str);
+        int count = count_token(str);
+        command = build_command_list(token, count);
+        print_command_list(command);
+        
     }
     
 }
