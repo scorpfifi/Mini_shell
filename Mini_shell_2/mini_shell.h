@@ -6,7 +6,7 @@
 /*   By: vmpianim <vmpianim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 11:12:51 by vmpianim          #+#    #+#             */
-/*   Updated: 2024/11/20 14:46:49 by vmpianim         ###   ########.fr       */
+/*   Updated: 2024/11/26 12:25:52 by vmpianim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_command
 {
     struct s_command    *next;
     struct s_command    *prev;
+    char                *token_type;
     t_token             *token;    
 }t_command;
 
@@ -47,18 +48,17 @@ typedef struct s_command
 int ft_found_pos(char *command);
 char    *ft_copy_pos(char *src, int pos);
 int count_str_cmd(char *command);
+int is_separator(char c);
 char    *clean_command(char *command);
 //Tokenisation
 int count_token(char *command);
 TokenType assing_type(char *command);
 t_token *tokenisation(char *command);
 //add_command
-// void        ft_add_back(t_command **command, t_command *new_command);
-// t_command   *new_command(t_token *token);
-// t_command   **add_command(t_token *token);
-// void        print_command(t_command *command);
 t_command *create_command(t_token *token);
 void add_command(t_command **head, t_command *new_command);
 t_command *build_command_list(t_token *tokens, int token_count);
 void print_command_list(t_command *cmd_list);
+char	*remove_extra_spaces(const char *str);
+void assing_command(t_command *command);
 #endif

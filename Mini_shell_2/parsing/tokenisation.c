@@ -6,11 +6,75 @@
 /*   By: vmpianim <vmpianim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 09:44:06 by vmpianim          #+#    #+#             */
-/*   Updated: 2024/11/20 15:01:20 by vmpianim         ###   ########.fr       */
+/*   Updated: 2024/11/26 12:30:24 by vmpianim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
+
+void type_command(t_command *tmp)
+{
+        if (tmp->token->type == 4)
+            tmp->token_type = "herdoc";
+        else if (tmp->token->type == 0)
+        {
+            if (tmp->prev)
+            {
+                if (tmp->prev->token->type != 0)
+                {
+                    if (tmp->prev->token->type == 5)
+                        tmp->token_type  = "command";
+                    else
+                        tmp->token_type  = "file";
+                }
+                else
+                    tmp->token_type = "command";
+            }
+            else
+                tmp->token_type = "command";
+        }
+        else if (tmp->token->type == 3)
+            tmp->token_type = "append";
+        else if (tmp->token->type == 2)
+            tmp->token_type = "redir_out";
+        else if (tmp->token->type == 1)
+            tmp->token_type = "redir_in";
+}
+void    pipe_line(t_command *command)
+{
+    t_command   *tmp;
+
+    tmp = command;
+    printf("--------------------PIPELINE----------------------------------\n");
+    while (tmp)
+    {
+        if (tmp->token->type != 5)
+            type_command(tmp);
+        else
+           break;
+        tmp = tmp->next;
+    }
+}
+
+void assing_command(t_command *command)
+{
+    t_command   *tmp;
+
+    tmp  = command;
+    while (tmp)
+    {
+
+        if (tmp->token->type == 5)
+        {
+            tmp->token_type = "Pipe";
+            pipe_line(tmp);
+        }
+        else
+            type_command(tmp);
+        printf("valu command [%s], type command = [%d], token_type = [%s]\n", (tmp)->token->value, tmp->token->type, tmp->token_type);
+       tmp = tmp->next;   
+    }
+}
 
 int count_token(char *command)
 {
@@ -37,6 +101,8 @@ int count_token(char *command)
     return (count);
 }
 
+
+
 TokenType assing_type(char *command)
 {
     TokenType type;
@@ -62,11 +128,8 @@ t_token *tokenisation(char *command)
     char        *start;
     int         pos_space;
     int         i;
-    t_command   **coms;
 
     tokens = malloc(sizeof(t_token) * (count_token(command) + 1));
-    i = 0;
-    start = command;
     i = 0;
     pos_space = 0;
     start = command;
@@ -81,10 +144,8 @@ t_token *tokenisation(char *command)
             tokens[i].value = ft_copy_pos(start, ft_strlen(start));
         tokens[i].type = assing_type(tokens[i].value);
         start = &start[pos_space + 1];
-        printf ("id = %d, value = %s, type = %d\n", tokens[i].id, tokens[i].value, tokens[i].type);
         i++;
     }
-    //tokens->next = NULL;
     return(tokens);
 }
 int main(int argc, char **argv)
@@ -97,11 +158,13 @@ int main(int argc, char **argv)
     while (1)
     {
         read_line = readline("bash~ ");
-        str = clean_command(read_line);
+        str = remove_extra_spaces(read_line);
+        printf("[%s]\n", str);
         token = tokenisation(str);
         int count = count_token(str);
         command = build_command_list(token, count);
-        print_command_list(command);
+        assing_command(command);
+        //print_command_list(command);
         
     }
     

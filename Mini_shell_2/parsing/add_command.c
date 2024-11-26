@@ -6,68 +6,17 @@
 /*   By: vmpianim <vmpianim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:15:48 by vmpianim          #+#    #+#             */
-/*   Updated: 2024/11/20 15:01:50 by vmpianim         ###   ########.fr       */
+/*   Updated: 2024/11/26 12:27:37 by vmpianim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../mini_shell.h"
 
-// void    ft_add_back(t_command **command, t_command *new_command)
-// {
-//     t_command   *temp;
+t_command *create_command(t_token *token) 
+{
+    t_command *cmd;
     
-//     if (*command == NULL)
-//         *command = new_command;
-//     else
-//     {
-//         temp = *command;
-//         while (temp->next != NULL)
-//             temp = temp->next;
-//         temp->next = new_command;
-//     }   
-// }
-// t_command   *new_command(t_token *token)
-// {
-//     t_command   *new_command;
-    
-//     new_command = malloc(sizeof(t_command));
-//     if (!new_command)
-//         return (NULL);
-//     new_command->token = token;
-//     new_command->next = NULL;
-//     return (new_command);
-// }
-// t_command   **add_command(t_token *token)
-// {
-//     char        *value;
-//     int         i;
-//     t_command   **command;
-    
-//     command = malloc(sizeof(t_command));
-//     if (!command)
-//         return (NULL);
-//     *command = NULL;
-//     while (token)
-//     {
-//         value = token->value;
-//         ft_add_back(command, new_command(token));
-//         token = token->next;
-//     }
-//     return(command);
-// }
-
-// void    print_command(t_command *command)
-// {
-//     while (command)
-//     {
-//         printf("valeur char = %s\n", command->token->value);
-//         command = command->next;
-//     }
-    
-// }
-
-t_command *create_command(t_token *token) {
-    t_command *cmd = malloc(sizeof(t_command));
+    cmd  = malloc(sizeof(t_command));
     if (!cmd)
         return NULL;
     cmd->token = token;
@@ -120,12 +69,10 @@ void print_command_list(t_command *command)
     tmp = (command);
     while (tmp)
     {
-        printf("1");
-        printf("valu command [%s]\n", (tmp)->token->value);
+        printf("valu command [%s], type command = [%d]\n", (tmp)->token->value, tmp->token->type);
         tmp = tmp->next;
     }
 }
-// Libérer la mémoire de la liste de commandes
 void free_command_list(t_command *cmd_list)
 {
     t_command *current = cmd_list;
