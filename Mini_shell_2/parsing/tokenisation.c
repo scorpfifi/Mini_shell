@@ -6,7 +6,7 @@
 /*   By: vmpianim <vmpianim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/13 09:44:06 by vmpianim          #+#    #+#             */
-/*   Updated: 2024/11/26 12:30:24 by vmpianim         ###   ########.fr       */
+/*   Updated: 2024/12/06 13:40:11 by vmpianim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void type_command(t_command *tmp)
         else if (tmp->token->type == 1)
             tmp->token_type = "redir_in";
 }
+
+
 void    pipe_line(t_command *command)
 {
     t_command   *tmp;
@@ -143,6 +145,7 @@ t_token *tokenisation(char *command)
         else
             tokens[i].value = ft_copy_pos(start, ft_strlen(start));
         tokens[i].type = assing_type(tokens[i].value);
+        tokens[i].value = change_expand(tokens[i].value, 0, 0);
         start = &start[pos_space + 1];
         i++;
     }

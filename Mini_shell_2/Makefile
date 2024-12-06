@@ -2,7 +2,7 @@ NAME = mini_shell
 CC = cc -lreadline
 RM = rm -f
 FLAGS = -Wall -Wextra -Werror 
-SRC_1 = parsing/tokenisation.c parsing/utils.c parsing/add_command.c
+SRC_1 = parsing/tokenisation.c parsing/utils.c parsing/add_command.c expandin/expanding.c
 OBJ_1 = ${SRC_1:.c=.o}
 INCLUDE = -L ./libft -lft
 

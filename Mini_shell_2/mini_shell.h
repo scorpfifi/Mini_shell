@@ -6,7 +6,7 @@
 /*   By: vmpianim <vmpianim@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/17 11:12:51 by vmpianim          #+#    #+#             */
-/*   Updated: 2024/11/26 12:25:52 by vmpianim         ###   ########.fr       */
+/*   Updated: 2024/12/06 13:39:41 by vmpianim         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,5 @@ t_command *build_command_list(t_token *tokens, int token_count);
 void print_command_list(t_command *cmd_list);
 char	*remove_extra_spaces(const char *str);
 void assing_command(t_command *command);
+char    *change_expand(char *input, int i, int j);
 #endif
